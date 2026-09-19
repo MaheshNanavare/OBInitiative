@@ -1,0 +1,504 @@
+---
+import { Image, getImage } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import StoryCard from '../components/StoryCard.astro';
+import { getStories } from '../lib/stories';
+import { donateUrl, fundraiser, organisationProfileUrl } from '../config';
+
+import heroImg from '../assets/photos/book-distribution-1.jpg';
+import girlsImg from '../assets/photos/book-distribution-4.jpg';
+import videoUrl from '../assets/video/backpack-campaign.mp4?url';
+import videoPosterImg from '../assets/video/backpack-campaign-poster.jpg';
+
+const money = (n: number) => `$${n.toLocaleString('en-US')}`;
+const goal = money(fundraiser.goal);
+const videoPoster = await getImage({ src: videoPosterImg, width: 480, format: 'webp' });
+const budgetTotal = fundraiser.budget.reduce((sum, b) => sum + b.amount, 0);
+
+// From the "Empowerment in Action: Together for Bwaise" campaign deck.
+const plan = [
+  { when: 'Weeks 1–2', what: 'Identify and verify the children, map their needs, and collect safeguarding consent.' },
+  { when: 'Weeks 3–4', what: 'Buy supplies in bulk through competitive quotes and check every item into inventory.' },
+  { when: 'Week 5', what: 'A community “Giving Day” in Bwaise, where the children receive their kits.' },
+  { when: 'Weeks 6–12', what: 'Track school attendance and collect feedback from children, parents and teachers.' },
+  { when: 'Week 13+', what: 'Full financial reporting, and an impact report shared with every funding partner.' },
+];
+
+const safeguards = [
+  { title: 'Financial oversight', text: "Funds are managed by OBI's Operations Manager under established standard operating procedures." },
+  { title: 'Fraud prevention', text: 'Every release of funds needs two authorisations, with separate people buying and paying.' },
+  { title: 'Fair procurement', text: 'Materials are bought through competitive bidding, so each dollar goes as far as possible.' },
+  { title: 'Child safeguarding', text: 'Formal child protection policies and strict data privacy rules apply across all our work.' },
+];
+
+// Beneficiaries featured in the campaign deck; both already have stories on the site.
+const spotlight = (await getStories()).filter((s) =>
+  ['my-story-nansereko-shanita', 'meet-and-know-muzeyi-ashraf'].includes(s.id),
+);
+
+const tiers = [
+  { name: 'Hope Builder', amount: 10, impact: 'Supplies a girl with menstrual kits for a school term.' },
+  { name: 'Dream Catalyst', amount: 20, impact: 'Provides breakfast for one child each term.' },
+  { name: 'Future Visionary', amount: 50, impact: 'Equips a child with everything they need to confidently return to school.' },
+  { name: 'Community Champion', amount: 100, impact: 'Sponsors a child per term—changing the trajectory of their academic year.' },
+];
+---
+
+<Base
+  title="Fund Us"
+  description={`Help us raise ${goal} to equip ${fundraiser.children} children in Bwaise with scholastic materials and hygiene essentials.`}
+  image={heroImg}
+>
+  <PageHero
+    eyebrow="Empowerment in action, together for Bwaise"
+    title="Your support fuels our impact"
+    lead={`Help us equip ${fundraiser.children} children with school supplies and hygiene essentials. Our goal: ${goal}.`}
+    image={heroImg}
+    imageAlt="A crowd of children at a scholastic materials distribution in Bwaise"
+    focus="50% 40%"
+  >
+    <div class="btn-row">
+      <a class="btn btn-donate" href={donateUrl} target="_blank" rel="noopener">Donate now</a>
+      <a class="btn btn-light" href="#impact">See your impact</a>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="container-narrow prose">
+      <p>
+        In the heart of Bwaise, where strength and resilience define everyday life, Obuyisi bw'Omu Initiative was born in
+        2023 out of a deep desire to give back. We've always believed in the power of community—in standing together,
+        lifting each other up, and creating change from within.
+      </p>
+      <p>
+        Now, for the first time since our founding, we are launching our biggest community giveback ever, and we need you to
+        help us make it real. This is about more than just helping with school supplies. It's about helping children break
+        the cycle of poverty and creating a future where all children—no matter their background—have the opportunity to
+        thrive.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-sand">
+    <div class="container grid-2">
+      <div>
+        <p class="eyebrow">Our goal</p>
+        <h2>Equip {fundraiser.children} children with hope</h2>
+        <p>
+          Education is a right—but for too many children in Bwaise, the lack of basic school materials and hygiene essentials
+          becomes a barrier to learning, confidence, and growth. We're raising {goal} to support {fundraiser.children} children,
+          from nursery to secondary school, for {fundraiser.terms}.
+        </p>
+        <p><strong>Each child will receive:</strong></p>
+        <ul class="checklist">
+          <li><strong>Scholastic materials:</strong> exercise books, pens, pencils, rulers, school bags, and more.</li>
+          <li><strong>Hygiene items:</strong> sanitary pads, soap, toothbrushes, toothpaste, and other personal care items.</li>
+        </ul>
+        <p>
+          By equipping these young learners with the tools they need to succeed, we're not just handing out supplies—we're
+          restoring dignity, building dreams, and breaking cycles of poverty.
+        </p>
+      </div>
+      <div class="photo tall">
+        <Image src={girlsImg} alt="Girls seated with their new scholastic materials in front of the campaign banner" widths={[500, 900]} sizes="(max-width: 900px) 100vw, 540px" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container why">
+      <div>
+        <p class="eyebrow">Why it matters now</p>
+        <h2>Small contributions, a huge ripple effect</h2>
+        <div class="prose plain">
+          <p>
+            Bwaise is a community that has faced its fair share of hardship, yet it is also filled with strength, unity, and
+            resilience. The children here are eager to learn and better their lives, but they often don't have access to the
+            most basic resources. They shouldn't have to choose between going to school and staying home because they lack
+            hygiene supplies, pens, or books.
+          </p>
+          <blockquote>
+            When a girl doesn't have to miss school due to a lack of sanitary pads, or when a boy walks into class with a
+            proper school bag for the first time—something changes. Confidence grows. Hope takes root.
+          </blockquote>
+          <p>We're not just handing out items; we're handing out possibility and planting hope.</p>
+        </div>
+      </div>
+      <figure class="film">
+        <video
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+          disablepictureinpicture
+          disableRemotePlayback
+          aria-label="A Backpack at a Time, our campaign film"
+          poster={videoPoster.src}
+          width="360"
+          height="636"
+        >
+          <source src={videoUrl} type="video/mp4" />
+        </video>
+        <figcaption>
+          <strong>A Backpack at a Time.</strong> Our campaign film: what poverty takes from a child's schooling, and what one
+          backpack can give back.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section section-sand">
+    <div class="container-narrow">
+      <div class="section-head">
+        <p class="eyebrow">Where your gift goes</p>
+        <h2>Every dollar has a job</h2>
+        <p>
+          Most of the {goal} buys the supplies themselves. The rest makes sure they reach the right children, and that we can
+          show you the results.
+        </p>
+      </div>
+      <ul class="budget">
+        {
+          fundraiser.budget.map((b) => (
+            <li>
+              <span class="item">{b.item}</span>
+              <span class="amt">{money(b.amount)}</span>
+              <span class="bar" aria-hidden="true">
+                <span style={`width: ${(b.amount / budgetTotal) * 100}%`} />
+              </span>
+            </li>
+          ))
+        }
+        <li class="total">
+          <span class="item">Total</span>
+          <span class="amt">{money(budgetTotal)}</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="impact" class="section section-purple">
+    <div class="container">
+      <div class="section-head center">
+        <p class="eyebrow">Your gift, their future</p>
+        <h2>Choose your impact</h2>
+        <p>
+          Your donation, no matter the size, brings us closer to our {goal} goal and sends a powerful message to our children:
+          You matter. Your dreams matter. Your future matters.
+        </p>
+      </div>
+      <ul class="tiers">
+        {
+          tiers.map((t) => (
+            <li>
+              <a href={donateUrl} target="_blank" rel="noopener" class="tier">
+                <span class="amount">${t.amount}</span>
+                <span class="name">{t.name}</span>
+                <span class="impact">{t.impact}</span>
+                <span class="give">Give ${t.amount}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="note">Donations are processed securely by our partner Meaningful. Any amount helps.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head center">
+        <p class="eyebrow">The plan</p>
+        <h2>From your gift to a child's desk in 13 weeks</h2>
+      </div>
+      <ol class="plan">
+        {
+          plan.map((p) => (
+            <li>
+              <span class="when">{p.when}</span>
+              <p>{p.what}</p>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="section-head center safeguards-head">
+        <p class="eyebrow">Accountability</p>
+        <h2>How we look after your gift</h2>
+      </div>
+      <div class="grid-4">
+        {
+          safeguards.map((s) => (
+            <div class="card safeguard">
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {
+    spotlight.length > 0 && (
+      <section class="section section-sand">
+        <div class="container">
+          <div class="section-head center">
+            <p class="eyebrow">Proof it works</p>
+            <h2>Children this support has already reached</h2>
+          </div>
+          <div class="spotlight">
+            {spotlight.map((s) => (
+              <StoryCard story={s} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section">
+    <div class="container-narrow center">
+      <p class="eyebrow">Help us make history</p>
+      <h2>Be part of this milestone</h2>
+      <p class="lead">
+        This is a grassroots movement, born and raised in Bwaise, powered by people like you—people who believe that every
+        child deserves the chance to learn, grow, and thrive.
+      </p>
+      <p>
+        This {goal} campaign marks our first and biggest giveback in our organization's journey—and with your help, it won't
+        be the last. Be part of this milestone. Be part of this change.
+      </p>
+      <div class="btn-row centered">
+        <a class="btn btn-donate" href={donateUrl} target="_blank" rel="noopener">Donate now</a>
+        <a class="btn btn-outline" href="/fundraise-for-us/">Fundraise for us</a>
+      </div>
+      <p class="profile">
+        Representing a company, foundation or school?
+        <a href={organisationProfileUrl} download>Download our organisation profile</a> (PDF, 1 page).
+      </p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Respect visitors who have asked their device to reduce motion: no autoplay, they can press play themselves.
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll<HTMLVideoElement>('.film video').forEach((video) => {
+      video.removeAttribute('autoplay');
+      video.pause();
+    });
+  }
+</script>
+
+<style>
+  .tall {
+    aspect-ratio: 4 / 4.4;
+  }
+  .plain p:first-of-type::first-letter {
+    all: unset;
+  }
+  .center {
+    text-align: center;
+  }
+  .centered {
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+  .tiers {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  }
+  .tier {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.75rem 1.5rem;
+    border-radius: var(--radius);
+    background: rgb(255 255 255 / 0.06);
+    border: 1px solid rgb(255 255 255 / 0.14);
+    color: #e5d9f1;
+    text-decoration: none;
+    transition:
+      background-color 0.2s ease,
+      transform 0.2s ease;
+  }
+  .tier:hover {
+    background: rgb(255 255 255 / 0.12);
+    transform: translateY(-3px);
+    color: #e5d9f1;
+  }
+  .amount {
+    font-family: var(--font-display);
+    font-size: 2.75rem;
+    font-weight: 600;
+    color: var(--amber-500);
+    line-height: 1;
+  }
+  .name {
+    margin-top: 0.6rem;
+    font-weight: 700;
+    color: var(--white);
+    font-size: 1.1rem;
+  }
+  .impact {
+    margin-top: 0.5rem;
+    flex: 1;
+  }
+  .give {
+    margin-top: 1.25rem;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .give::after {
+    content: ' →';
+  }
+  .note {
+    text-align: center;
+    margin-top: 2rem;
+    color: #bfaed3;
+    font-size: 0.9rem;
+  }
+
+  /* Why it matters + campaign film */
+  .why {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+  .film {
+    margin: 0;
+    width: 100%;
+    max-width: 340px;
+    justify-self: center;
+  }
+  .film video {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 360 / 636;
+    /* Decorative loop: no controls, and clicks/taps pass straight through */
+    pointer-events: none;
+    border-radius: var(--radius-lg);
+    background: var(--purple-900);
+    box-shadow: var(--shadow-lg);
+  }
+  .film figcaption {
+    margin-top: 0.9rem;
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+  }
+  @media (max-width: 860px) {
+    .why {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Budget */
+  .budget {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .budget li {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.35rem 1rem;
+    padding-block: 0.8rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .item {
+    font-weight: 600;
+  }
+  .amt {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--purple-800);
+    font-variant-numeric: tabular-nums;
+  }
+  .bar {
+    grid-column: 1 / -1;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--purple-100);
+    overflow: hidden;
+  }
+  .bar span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--green-600);
+  }
+  .budget .total {
+    border-bottom: 0;
+    border-top: 2px solid var(--purple-800);
+    margin-top: 0.25rem;
+    font-size: 1.15rem;
+  }
+
+  /* Plan */
+  .plan {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+    counter-reset: step;
+  }
+  .plan li {
+    counter-increment: step;
+    border-top: 3px solid var(--green-600);
+    padding-top: 1rem;
+  }
+  .when {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--green-700);
+    margin-bottom: 0.4rem;
+  }
+  .when::before {
+    content: counter(step) '. ';
+  }
+  .plan p {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+  .safeguards-head {
+    margin-top: clamp(3.5rem, 8vw, 5.5rem);
+  }
+  .safeguard h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.4rem;
+  }
+  .safeguard p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.975rem;
+  }
+
+  /* Beneficiary stories */
+  .spotlight {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    max-width: 820px;
+    margin-inline: auto;
+  }
+
+  .profile {
+    margin-top: 2rem;
+    font-size: 0.95rem;
+    color: var(--ink-muted);
+  }
+</style>

@@ -1,0 +1,511 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import StoryCard from '../components/StoryCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Partners from '../components/Partners.astro';
+import { focusAreas } from '../data/projects';
+import { getStories } from '../lib/stories';
+import { donateUrl, fundraiser, site } from '../config';
+
+import heroImg from '../assets/photos/book-distribution-2.jpg';
+import communityImg from '../assets/photos/community-awareness-2.jpg';
+import runImg from '../assets/photos/mental-health-run-wheelchair.jpg';
+import studentImg from '../assets/photos/book-distribution-student.jpg';
+
+const stories = (await getStories()).slice(0, 3);
+
+const objectives = [
+  'Promote mental health awareness and support.',
+  'Improve education access for disadvantaged children, empowering them to help others and embrace voluntarism.',
+  'Equip youth with vocational and life skills for self-sustainability.',
+  'Address climate change through education and action.',
+  'Educate children on their rights, responsibilities, and health.',
+];
+---
+
+<Base description={site.description}>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Community-led · Rooted in Bwaise</p>
+        <h1>Changing the story <em>from within.</em></h1>
+        <p class="lead">
+          Empowering Uganda's youth and communities to thrive through mental health awareness, clean water, quality
+          health, climate resilience and education.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn-donate" href={donateUrl} target="_blank" rel="noopener">Donate</a>
+          <a class="btn btn-outline" href="/our-projects/">See our work</a>
+        </div>
+      </div>
+      <div class="hero-media">
+        <div class="photo main">
+          <Image
+            src={heroImg}
+            alt="Children in Bwaise proudly holding up new exercise books at an Obuyisi bw'Omu Initiative distribution"
+            widths={[600, 900, 1300]}
+            sizes="(max-width: 900px) 100vw, 560px"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+        <div class="badge">
+          <strong>{site.founded}</strong>
+          <span>Born in Bwaise, Kampala</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission -->
+  <section class="section">
+    <div class="container grid-2">
+      <div class="photo mission-photo">
+        <Image
+          src={communityImg}
+          alt="Community members in Bwaise gathered for an awareness session"
+          widths={[500, 900]}
+          sizes="(max-width: 900px) 100vw, 540px"
+        />
+      </div>
+      <div>
+        <p class="eyebrow">Mission statement</p>
+        <h2>A Uganda where every young person thrives</h2>
+        <p class="lead">
+          At Obuyisi bw'Omu Initiative, we envision a Uganda where every young person thrives—with mental health support,
+          clean water, community-led climate action, and girls empowered to complete school and lead change.
+        </p>
+        <h3>That future isn't yet a reality</h3>
+        <p>
+          Many face mental health stigma, polluted water, climate shocks, and barriers keeping girls from education. These
+          issues are connected and demand united action.
+        </p>
+        <h3>A community-first approach</h3>
+        <p>
+          We ignite local leadership among youth, leaders, and volunteers to break stigma, protect the environment, and
+          expand access to education and wellness.
+        </p>
+        <a class="text-link" href="/our-story/">Read our story</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vision / Mission / Values -->
+  <section class="section section-purple pillars">
+    <div class="container">
+      <div class="grid-3">
+        <div class="pillar">
+          <span class="num">01</span>
+          <h3>Our Vision</h3>
+          <p>Holistic wellbeing for all children and the community.</p>
+        </div>
+        <div class="pillar">
+          <span class="num">02</span>
+          <h3>Our Mission</h3>
+          <p>
+            To reach and empower disadvantaged children and families by providing education support, mental health
+            awareness, sanitation advocacy and climate action for sustainable development.
+          </p>
+        </div>
+        <div class="pillar">
+          <span class="num">03</span>
+          <h3>Our Core Values</h3>
+          <ul class="values">
+            <li>Integrity</li>
+            <li>Accountability</li>
+            <li>Dynamism</li>
+            <li>Equity</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Focus areas -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center">
+        <p class="eyebrow">What we do</p>
+        <h2>Four connected causes, one community</h2>
+        <p>
+          Concretely, we facilitate youth-led mental health conversations, mobilize villages to protect water sources, equip
+          communities for lasting climate action, and support girls to stay in school.
+        </p>
+      </div>
+      <div class="grid-4">
+        {
+          focusAreas.map((f) => (
+            <a class={`focus focus-${f.color}`} href={`/our-projects/#${f.id}`}>
+              <div class="focus-img">
+                <Image src={f.illustration} alt="" width={563} height={307} />
+              </div>
+              <div class="focus-body">
+                <span class="focus-project">{f.project}</span>
+                <h3>{f.area}</h3>
+                <p>{f.summary}</p>
+                <span class="text-link">Learn more</span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Motto & objectives -->
+  <section class="section section-sand">
+    <div class="container grid-2">
+      <div>
+        <p class="eyebrow">Our objectives</p>
+        <h2 class="motto">“Bridging Gaps, Developing Communities”</h2>
+        <p>
+          Our motto drives us to connect communities with vital resources. By bridging gaps in mental health, climate
+          resilience, clean water, sanitation, and education, we empower communities to overcome challenges and build a
+          brighter, sustainable future.
+        </p>
+        <ul class="checklist">
+          {objectives.map((o) => <li>{o}</li>)}
+        </ul>
+      </div>
+      <div class="stacked-photos">
+        <div class="photo a">
+          <Image
+            src={runImg}
+            alt="A young participant in a wheelchair celebrating during the Mental Health Run"
+            widths={[500, 800]}
+            sizes="(max-width: 900px) 70vw, 420px"
+          />
+        </div>
+        <div class="photo b">
+          <Image
+            src={studentImg}
+            alt="A student holding new exercise books in front of the Obuyisi bw'Omu Initiative banner"
+            widths={[400, 700]}
+            sizes="(max-width: 900px) 50vw, 300px"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Campaign -->
+  <section class="section">
+    <div class="container">
+      <div class="campaign">
+        <div>
+          <p class="eyebrow">Empowerment in action</p>
+          <h2>Equip {fundraiser.children} children with hope</h2>
+          <p class="lead">
+            We're raising ${fundraiser.goal.toLocaleString('en-US')} to give {fundraiser.children} children in Bwaise, from
+            nursery to secondary school, the scholastic materials and hygiene essentials they need for {fundraiser.terms}.
+          </p>
+          <div class="btn-row">
+            <a class="btn btn-donate" href={donateUrl} target="_blank" rel="noopener">Give today</a>
+            <a class="btn btn-outline" href="/fund-us/">About the campaign</a>
+          </div>
+        </div>
+        <dl class="stats">
+          <div>
+            <dt>Goal</dt>
+            <dd>${fundraiser.goal.toLocaleString('en-US')}</dd>
+          </div>
+          <div>
+            <dt>Children</dt>
+            <dd>{fundraiser.children}</dd>
+          </div>
+          <div>
+            <dt>$50 gives</dt>
+            <dd class="small">one child everything to return to school</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stories -->
+  <section class="section section-sand">
+    <div class="container">
+      <div class="section-head split">
+        <div>
+          <p class="eyebrow">Our stories</p>
+          <h2>Change, told by the people living it</h2>
+        </div>
+        <a class="text-link" href="/our-stories/">All stories</a>
+      </div>
+      <div class="grid-3">
+        {stories.map((s) => <StoryCard story={s} />)}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    text="Together, we've helped young people speak openly about mental health, communities restore water sources, schools lead on climate, and girls become leaders. This is only the beginning."
+  />
+
+  <Partners />
+</Base>
+
+<style>
+  /* Hero */
+  .hero {
+    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(3rem, 7vw, 6rem);
+    background:
+      radial-gradient(ellipse at 90% 10%, var(--green-100), transparent 55%),
+      radial-gradient(ellipse at 0% 100%, var(--purple-50), transparent 60%);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--green-700);
+    font-weight: 500;
+  }
+  .hero .lead {
+    max-width: 52ch;
+    margin-bottom: 2rem;
+  }
+  .hero-media {
+    position: relative;
+  }
+  .hero-media .main {
+    aspect-ratio: 4 / 3.4;
+    border-radius: 200px 24px 24px 24px;
+    box-shadow: var(--shadow-lg);
+  }
+  .badge {
+    position: absolute;
+    left: -1.25rem;
+    bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 0.9rem 1.2rem;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--green-600);
+  }
+  .badge strong {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    line-height: 1;
+    color: var(--purple-800);
+  }
+  .badge span {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+  @media (max-width: 900px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+    }
+    .badge {
+      left: 0.75rem;
+    }
+  }
+
+  /* Mission */
+  .mission-photo {
+    aspect-ratio: 4 / 5;
+  }
+  @media (max-width: 900px) {
+    .mission-photo {
+      aspect-ratio: 16 / 11;
+    }
+  }
+  h3 {
+    margin-top: 1.5rem;
+  }
+
+  /* Pillars */
+  .pillar {
+    border-top: 1px solid rgb(255 255 255 / 0.2);
+    padding-top: 1.5rem;
+  }
+  .pillar h3 {
+    margin-top: 0.4rem;
+  }
+  .pillar p {
+    color: #dccfe9;
+  }
+  .num {
+    font-family: var(--font-display);
+    color: var(--amber-500);
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  .values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .values li {
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.1);
+    color: var(--white);
+    font-weight: 550;
+  }
+
+  /* Focus areas */
+  .focus {
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: var(--shadow-sm);
+    border-top: 5px solid var(--accent);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .focus:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+    color: inherit;
+  }
+  .focus-purple {
+    --accent: var(--purple-600);
+  }
+  .focus-blue {
+    --accent: var(--blue-700);
+  }
+  .focus-green {
+    --accent: var(--green-600);
+  }
+  .focus-amber {
+    --accent: var(--amber-500);
+  }
+  .focus-img {
+    aspect-ratio: 563 / 307;
+    background: #f5efe3;
+  }
+  .focus-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .focus-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 1.25rem 1.4rem 1.5rem;
+  }
+  .focus-project {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .focus h3 {
+    margin: 0.35rem 0 0.6rem;
+    font-size: 1.25rem;
+  }
+  .focus p {
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    flex: 1;
+  }
+
+  /* Motto */
+  .motto {
+    font-style: italic;
+    font-weight: 500;
+  }
+  .stacked-photos {
+    position: relative;
+    min-height: 460px;
+  }
+  .stacked-photos .a {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 78%;
+    aspect-ratio: 4 / 3.3;
+  }
+  .stacked-photos .b {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 46%;
+    aspect-ratio: 4 / 4.6;
+    border: 6px solid var(--sand);
+  }
+  @media (max-width: 520px) {
+    .stacked-photos {
+      min-height: 360px;
+    }
+  }
+
+  /* Campaign */
+  .campaign {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+    padding: clamp(2rem, 5vw, 3.5rem);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, var(--amber-100), #fff7e8);
+    border: 1px solid #f4dfb5;
+  }
+  .stats {
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+  }
+  .stats div {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .stats dt {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .stats dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--purple-800);
+    line-height: 1.2;
+  }
+  .stats dd.small {
+    font-size: 1.15rem;
+  }
+  @media (max-width: 860px) {
+    .campaign {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Stories header */
+  .split {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 1rem;
+    max-width: none;
+  }
+  .split h2 {
+    margin-bottom: 0;
+  }
+</style>

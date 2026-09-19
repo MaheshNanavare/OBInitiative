@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Page not found" noindex>
+  <section class="section">
+    <div class="container-narrow wrap">
+      <p class="code">404</p>
+      <h1>We couldn't find that page</h1>
+      <p class="lead">It may have moved when we rebuilt our website. Try one of these instead:</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="/">Home</a>
+        <a class="btn btn-outline" href="/our-projects/">Our Projects</a>
+        <a class="btn btn-outline" href="/our-stories/">Our Stories</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .wrap {
+    text-align: center;
+  }
+  .code {
+    font-family: var(--font-display);
+    font-size: clamp(5rem, 16vw, 9rem);
+    font-weight: 600;
+    line-height: 1;
+    margin: 0 0 0.5rem;
+    background: linear-gradient(135deg, var(--purple-600), var(--green-600));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .btn-row {
+    justify-content: center;
+    margin-top: 2rem;
+  }
+</style>

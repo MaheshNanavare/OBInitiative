@@ -1,0 +1,60 @@
+---
+import { Image } from 'astro:assets';
+import { partners } from '../data/partners';
+---
+
+<section class="partners section" aria-labelledby="partners-title">
+  <div class="container">
+    <h2 id="partners-title" class="label">Proud to work with</h2>
+    <ul>
+      {
+        partners.map((p) => (
+          <li>
+            <a href={p.url} target="_blank" rel="noopener" title={p.name}>
+              <Image src={p.logo} alt={p.name} height={p.height * 2} style={`height:${p.height}px;width:auto`} />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .partners {
+    padding-block: clamp(2.5rem, 5vw, 3.5rem);
+    border-top: 1px solid var(--line);
+  }
+  .label {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--ink-muted);
+    margin-bottom: 1.75rem;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem clamp(2rem, 5vw, 4rem);
+  }
+  a {
+    display: block;
+    filter: grayscale(1);
+    opacity: 0.7;
+    transition:
+      filter 0.2s ease,
+      opacity 0.2s ease;
+  }
+  a:hover,
+  a:focus-visible {
+    filter: none;
+    opacity: 1;
+  }
+</style>

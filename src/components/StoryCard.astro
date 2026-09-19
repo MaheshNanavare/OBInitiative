@@ -1,0 +1,101 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import { formatDate, storyUrl } from '../lib/stories';
+
+interface Props {
+  story: CollectionEntry<'stories'>;
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { story, headingLevel = 'h3' } = Astro.props;
+const { title, date, excerpt, cover, coverAlt, category } = story.data;
+const Heading = headingLevel;
+---
+
+<article class="story-card">
+  <div class="media">
+    <Image src={cover} alt={coverAlt} widths={[400, 700]} sizes="(max-width: 700px) 100vw, 380px" />
+  </div>
+  <div class="body">
+    <p class="meta">
+      <span class="tag">{category}</span>
+      <time datetime={date.toISOString()}>{formatDate(date)}</time>
+    </p>
+    <Heading class="title">
+      <a href={storyUrl(story)}>{title}</a>
+    </Heading>
+    <p class="excerpt">{excerpt}</p>
+    <span class="text-link" aria-hidden="true">Read story</span>
+  </div>
+</article>
+
+<style>
+  .story-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .story-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
+  .media {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+  .media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  .story-card:hover .media img {
+    transform: scale(1.04);
+  }
+  .body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 1.4rem 1.5rem 1.6rem;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--ink-muted);
+    margin-bottom: 0.8rem;
+  }
+  .title {
+    font-size: 1.3rem;
+    margin-bottom: 0.6rem;
+  }
+  .title a {
+    color: var(--purple-900);
+    text-decoration: none;
+  }
+  /* Whole card is clickable via the heading link. */
+  .title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .excerpt {
+    color: var(--ink-soft);
+    font-size: 0.975rem;
+    flex: 1;
+  }
+  .text-link {
+    color: var(--purple-700);
+  }
+</style>

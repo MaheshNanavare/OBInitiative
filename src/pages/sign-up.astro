@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { formEndpoint } from '../config';
+import photo from '../assets/photos/book-distribution-student.jpg';
+---
+
+<Base title="Sign Up" description="Sign up for news, stories and updates from Obuyisi bw'Omu Initiative.">
+  <section class="section">
+    <div class="container grid-2">
+      <div>
+        <p class="eyebrow">Newsletter</p>
+        <h1>Sign up</h1>
+        <p class="lead">Get stories from Bwaise, campaign updates and ways to help, straight to your inbox.</p>
+        <form class="form" method="post" action={formEndpoint}>
+          <input type="hidden" name="form" value="newsletter" />
+          <div class="form-row">
+            <div class="field">
+              <label for="first">First name</label>
+              <input id="first" name="firstName" type="text" autocomplete="given-name" maxlength="80" />
+            </div>
+            <div class="field">
+              <label for="last">Last name</label>
+              <input id="last" name="lastName" type="text" autocomplete="family-name" maxlength="80" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="email">Email address <span class="required">*</span></label>
+            <input id="email" name="email" type="email" required autocomplete="email" maxlength="200" />
+          </div>
+          <div class="hp" aria-hidden="true">
+            <label>Leave this field empty if you're human <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+          </div>
+          <button class="btn btn-primary" type="submit">Sign up</button>
+        </form>
+      </div>
+      <div class="photo">
+        <Image src={photo} alt="A student proudly holding new exercise books" widths={[400, 800]} sizes="(max-width: 900px) 100vw, 500px" />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .photo {
+    aspect-ratio: 4 / 4.3;
+  }
+  .form {
+    margin-top: 2rem;
+  }
+  .form .btn {
+    justify-self: start;
+  }
+</style>

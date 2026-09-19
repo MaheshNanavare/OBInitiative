@@ -1,0 +1,35 @@
+{
+  "name": "obi-website",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Website for Obuyisi bw'Omu Initiative, built with Astro and deployed on Cloudflare Workers.",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "npm run build && wrangler dev",
+    "check": "astro check && tsc -p worker",
+    "deploy": "npm run build && wrangler deploy",
+    "astro": "astro"
+  },
+  "allowScripts": {
+    "esbuild": true,
+    "sharp": true,
+    "workerd": true
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/fraunces": "^5.3.0",
+    "@fontsource-variable/inter": "^5.3.0",
+    "astro": "^7.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@cloudflare/workers-types": "^5.20260919.1",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.135.0"
+  }
+}

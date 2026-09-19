@@ -1,0 +1,114 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+import heroImg from '../assets/photos/mental-health-run-banner.jpg';
+import eventImg from '../assets/photos/mental-health-run-wheelchair.jpg';
+import campaignImg from '../assets/photos/school-visit.jpg';
+---
+
+<Base
+  title="Fundraise For Us"
+  description="Host a fundraising event or start a personal campaign to support mental health, education, clean water and climate resilience in Uganda."
+  image={heroImg}
+>
+  <PageHero
+    eyebrow="Fundraise for us"
+    title="There are many ways you can help us"
+    lead="Turn your passion, your network or your next celebration into lasting change for families in Bwaise."
+    image={heroImg}
+    imageAlt="Runners and volunteers holding Obuyisi bw'Omu Initiative and Mental Health Run 2025 banners"
+    focus="50% 45%"
+  />
+
+  <section class="section">
+    <div class="container ways">
+      <article class="way">
+        <div class="photo">
+          <Image src={eventImg} alt="A young participant in a wheelchair celebrating at a community run" widths={[500, 900]} sizes="(max-width: 900px) 100vw, 540px" />
+        </div>
+        <div class="copy">
+          <p class="eyebrow">Host a fundraising event</p>
+          <h2>Turn moments into movements</h2>
+          <p>
+            Bring your community together to create real impact. Whether it's a neighborhood cookout, awareness walk, cultural
+            showcase, dinner, village marathon or run, or online gathering, your event can raise critical funds and start
+            meaningful conversations.
+          </p>
+          <p>
+            Every voice and donation moves us closer to a world where no one is left behind—in mental health, education, clean
+            water, or climate resilience.
+          </p>
+        </div>
+      </article>
+
+      <article class="way reverse">
+        <div class="photo">
+          <Image src={campaignImg} alt="Children gathered for an Obuyisi bw'Omu Initiative school visit" widths={[500, 900]} sizes="(max-width: 900px) 100vw, 540px" />
+        </div>
+        <div class="copy">
+          <p class="eyebrow">Start a personal campaign</p>
+          <h2>Lead change from where you stand</h2>
+          <p>
+            Transform your passion into purpose by launching a personal fundraising campaign. Rally your friends, family, or
+            followers to support the causes that matter most—from youth empowerment to safe water access.
+          </p>
+          <p>Your story and effort can spark hope and action in places that need it most.</p>
+        </div>
+      </article>
+
+      <div class="card next">
+        <h2>Ready to start?</h2>
+        <p>
+          Tell us what you're planning and we'll help with stories, photos and updates from the ground. Reach us through the
+          volunteer form, or follow us on social media to share our campaigns.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="/apply-as-a-volunteer-or-intern/">Get in touch</a>
+          <a class="btn btn-outline" href="/fund-us/">See our current campaign</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .ways {
+    display: grid;
+    gap: clamp(3rem, 7vw, 5.5rem);
+  }
+  .way {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+  .way .photo {
+    aspect-ratio: 4 / 3;
+  }
+  .reverse .photo {
+    order: 2;
+  }
+  @media (max-width: 860px) {
+    .way {
+      grid-template-columns: 1fr;
+    }
+    .reverse .photo {
+      order: 0;
+    }
+  }
+  .next {
+    text-align: center;
+    max-width: 760px;
+    margin-inline: auto;
+    background: var(--purple-50);
+    border-color: var(--purple-100);
+  }
+  .next .btn-row {
+    justify-content: center;
+  }
+</style>

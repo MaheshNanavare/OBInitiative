@@ -1,0 +1,221 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Partners from '../components/Partners.astro';
+import { team } from '../data/team';
+
+import heroImg from '../assets/photos/mental-health-run-team.jpg';
+import founderImg from '../assets/team/mbalire-moses.jpg';
+---
+
+<Base
+  title="Our Story"
+  description="How Mbalire Moses went from hardship in Kampala to founding Obuyisi bw'Omu Initiative, and the team that carries the work forward."
+  image={heroImg}
+>
+  <PageHero
+    eyebrow="Our Story"
+    title="Born from the community we serve"
+    lead="Obuyisi bw'Omu Initiative was founded in Bwaise in 2023 by young people who had lived the challenges they now work to solve."
+    image={heroImg}
+    imageAlt="Obuyisi bw'Omu Initiative team members in blue Mental Health Run shirts"
+    focus="50% 35%"
+  />
+
+  <section class="section">
+    <div class="container founder">
+      <figure class="founder-photo">
+        <div class="photo">
+          <Image
+            src={founderImg}
+            alt="Mbalire Moses, founder of Obuyisi bw'Omu Initiative, at the Mental Health Summit 2024"
+            widths={[400, 720]}
+            sizes="(max-width: 860px) 90vw, 400px"
+          />
+        </div>
+        <figcaption>
+          <strong>Mbalire Moses</strong>
+          Founder &amp; Team Leader
+        </figcaption>
+      </figure>
+      <div class="founder-copy">
+        <p class="eyebrow">Meet our founder</p>
+        <h2>“Creating change, no matter how small.”</h2>
+        <div class="prose">
+          <p>
+            Mbalire Moses was born in Kampala to unschooled parents and faced severe hardship. Lacking basics, walking long
+            distances, and dealing with school fees, he still supported his sisters—who are now a nurse and a teacher.
+          </p>
+          <p>
+            Struggling with his circumstances, Moses turned to drugs. But reading how Brazilian footballers escaped the
+            favelas inspired him to change his own life.
+          </p>
+          <p>
+            He became an advocate for equal opportunity and, with like-minded youth, founded Obuyisi bw'Omu Initiative to
+            give back. Moses is passionate about creating change, no matter how small.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-sand">
+    <div class="container">
+      <div class="grid-3 mvv">
+        <div class="card">
+          <h3>Our Vision</h3>
+          <p>Holistic wellbeing for all children and the community.</p>
+        </div>
+        <div class="card">
+          <h3>Our Mission</h3>
+          <p>
+            To reach and empower disadvantaged children and families by providing education support, mental health
+            awareness, sanitation advocacy and climate action for sustainable development.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Our Core Values</h3>
+          <p>Integrity, Accountability, Dynamism and Equity.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="team">
+    <div class="container">
+      <div class="section-head center">
+        <p class="eyebrow">Our team</p>
+        <h2>The people behind the work</h2>
+        <p>A team of volunteers and professionals in Uganda and around the world, united by one community.</p>
+      </div>
+      <ul class="team">
+        {
+          team.map((m) => (
+            <li class="member">
+              <div class="avatar">
+                <Image
+                  src={m.photo}
+                  alt={`Portrait of ${m.name}`}
+                  widths={[240, 420]}
+                  sizes="(max-width: 600px) 45vw, 240px"
+                  style={[
+                    m.focus && `object-position:${m.focus}`,
+                    m.zoom && `transform:scale(${m.zoom});transform-origin:${m.focus ?? 'center'}`,
+                  ]
+                    .filter(Boolean)
+                    .join(';') || undefined}
+                />
+              </div>
+              <h3>{m.name}</h3>
+              <p class="role">{m.role}</p>
+              <p class="bio">{m.bio}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand />
+  <Partners />
+</Base>
+
+<style>
+  .founder {
+    display: grid;
+    grid-template-columns: minmax(260px, 400px) 1fr;
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+  .founder-photo {
+    margin: 0;
+    position: sticky;
+    top: 110px;
+  }
+  .founder-photo .photo {
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-lg) var(--radius-lg) 140px var(--radius-lg);
+  }
+  .founder-photo img {
+    object-position: 50% 20%;
+  }
+  figcaption {
+    margin-top: 1rem;
+    color: var(--ink-muted);
+    font-size: 0.95rem;
+  }
+  figcaption strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    color: var(--purple-900);
+  }
+  .founder-copy h2 {
+    font-style: italic;
+    font-weight: 500;
+  }
+  @media (max-width: 860px) {
+    .founder {
+      grid-template-columns: 1fr;
+    }
+    .founder-photo {
+      position: static;
+      max-width: 360px;
+    }
+  }
+
+  .mvv h3 {
+    color: var(--green-700);
+  }
+  .mvv p {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+
+  .team {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.5rem 1.75rem;
+  }
+  .member {
+    flex: 0 1 250px;
+    text-align: center;
+  }
+  .avatar {
+    width: min(190px, 70%);
+    aspect-ratio: 1;
+    margin: 0 auto 1.1rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid var(--white);
+    box-shadow:
+      0 0 0 2px var(--purple-100),
+      var(--shadow);
+  }
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .member h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.2rem;
+  }
+  .role {
+    font-size: 0.85rem;
+    font-weight: 650;
+    color: var(--green-700);
+    margin-bottom: 0.6rem;
+  }
+  .bio {
+    font-size: 0.925rem;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,377 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/brand/logo.png';
+import { nav, donateUrl, site } from '../config';
+
+const path = Astro.url.pathname;
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+
+<header class="site-header">
+  <div class="container bar">
+    <a href="/" class="brand" aria-label={`${site.name}, home`}>
+      <Image src={logo} alt="" width={52} height={52} loading="eager" />
+      <span class="brand-text">
+        <span class="brand-name">Obuyisi bw'Omu</span>
+        <span class="brand-sub">Initiative</span>
+      </span>
+    </a>
+
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="visually-hidden">Menu</span>
+      <span class="bars" aria-hidden="true"></span>
+    </button>
+
+    <nav id="site-nav" class="nav" aria-label="Main">
+      <ul class="nav-list">
+        {
+          nav.map((item) => (
+            <li class:list={['nav-item', { 'has-children': item.children }]}>
+              {item.children ? (
+                <>
+                  <button
+                    type="button"
+                    class:list={['nav-link', 'sub-toggle', { active: item.children.some((c) => isActive(c.href)) }]}
+                    aria-expanded="false"
+                  >
+                    {item.label}
+                    <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                      <path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                    </svg>
+                  </button>
+                  <ul class="submenu">
+                    {item.children.map((c) => (
+                      <li>
+                        <a href={c.href} aria-current={isActive(c.href) ? 'page' : undefined}>
+                          {c.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <a
+                  href={item.href}
+                  class:list={['nav-link', { active: isActive(item.href) }]}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+      <a class="btn btn-donate nav-donate" href={donateUrl} target="_blank" rel="noopener">
+        Donate
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('.site-header')!;
+  const toggle = header.querySelector<HTMLButtonElement>('.menu-toggle')!;
+  const subToggles = header.querySelectorAll<HTMLButtonElement>('.sub-toggle');
+
+  const closeSubmenus = (except?: HTMLButtonElement) =>
+    subToggles.forEach((b) => b !== except && b.setAttribute('aria-expanded', 'false'));
+
+  toggle.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open));
+    header.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+
+  subToggles.forEach((btn) =>
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = btn.getAttribute('aria-expanded') !== 'true';
+      closeSubmenus(btn);
+      btn.setAttribute('aria-expanded', String(open));
+    }),
+  );
+
+  document.addEventListener('click', (e) => {
+    if (!header.contains(e.target as Node)) closeSubmenus();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeSubmenus();
+  });
+
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgb(255 253 249 / 0.92);
+    backdrop-filter: saturate(1.4) blur(10px);
+    border-bottom: 1px solid transparent;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .site-header.scrolled {
+    border-bottom-color: var(--line);
+    box-shadow: 0 4px 20px -12px rgb(30 24 38 / 0.25);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 76px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    text-decoration: none;
+    color: var(--purple-900);
+    flex: none;
+  }
+  .brand img {
+    width: 52px;
+    height: 52px;
+  }
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
+  }
+  .brand-name {
+    font-family: var(--font-display);
+    font-weight: 650;
+    font-size: 1.2rem;
+  }
+  .brand-sub {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--green-700);
+    font-weight: 700;
+    margin-top: 0.2rem;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-item {
+    position: relative;
+  }
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.55rem 0.8rem;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 0.975rem;
+    font-weight: 550;
+    color: var(--ink);
+    text-decoration: none;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--purple-700);
+    background: var(--purple-50);
+  }
+  .sub-toggle svg {
+    transition: transform 0.2s ease;
+  }
+  .sub-toggle[aria-expanded='true'] svg {
+    transform: rotate(180deg);
+  }
+  .submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem;
+    position: absolute;
+    top: calc(100% + 0.4rem);
+    left: 0;
+    min-width: 230px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease,
+      visibility 0.15s;
+  }
+  .sub-toggle[aria-expanded='true'] + .submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+  @media (hover: hover) and (min-width: 1001px) {
+    .has-children:hover .submenu {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+    }
+    /* Bridge the gap so the menu doesn't close while the pointer moves down to it. */
+    .has-children::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      height: 0.5rem;
+    }
+  }
+  .submenu a {
+    display: block;
+    padding: 0.6rem 0.8rem;
+    border-radius: var(--radius-sm);
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+  .submenu a:hover,
+  .submenu a[aria-current='page'] {
+    background: var(--purple-50);
+    color: var(--purple-700);
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+
+  @media (max-width: 1000px) {
+    .menu-toggle {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: var(--white);
+      cursor: pointer;
+      z-index: 2;
+    }
+    .bars,
+    .bars::before,
+    .bars::after {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--purple-900);
+      border-radius: 2px;
+      transition: transform 0.2s ease;
+      position: relative;
+    }
+    .bars::before,
+    .bars::after {
+      content: '';
+      position: absolute;
+      left: 0;
+    }
+    .bars::before {
+      top: -6px;
+    }
+    .bars::after {
+      top: 6px;
+    }
+    .open .bars {
+      background: transparent;
+    }
+    .open .bars::before {
+      transform: translateY(6px) rotate(45deg);
+    }
+    .open .bars::after {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    .nav {
+      position: fixed;
+      inset: 76px 0 0 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1.5rem;
+      padding: 1.5rem var(--gutter) 2rem;
+      background: var(--paper);
+      overflow-y: auto;
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        visibility 0.2s;
+    }
+    .open .nav {
+      visibility: visible;
+      opacity: 1;
+      transform: none;
+    }
+    .nav-list {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+    }
+    .nav-item {
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-link {
+      width: 100%;
+      justify-content: space-between;
+      padding: 1rem 0.25rem;
+      font-size: 1.125rem;
+      border-radius: 0;
+    }
+    .nav-link:hover,
+    .nav-link.active {
+      background: none;
+    }
+    .submenu {
+      position: static;
+      box-shadow: none;
+      border: 0;
+      padding: 0 0 0.75rem 0.75rem;
+      display: none;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+    }
+    .sub-toggle[aria-expanded='true'] + .submenu {
+      display: block;
+    }
+    .nav-donate {
+      align-self: flex-start;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .brand-name {
+      font-size: 1.05rem;
+    }
+    .brand img {
+      width: 44px;
+      height: 44px;
+    }
+  }
+</style>

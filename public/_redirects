@@ -1,0 +1,9 @@
+# Old WordPress URLs that no longer exist on the new site.
+# Placeholder demo post left over from the WordPress theme.
+/the-strength-of-a-people-the-power-of-community/  /our-stories/  301
+/the-strength-of-a-people-the-power-of-community   /our-stories/  301
+/feed/                /our-stories/  301
+/feed                 /our-stories/  301
+/blog/                /our-stories/  301
+/wp-login.php         /              301
+/wp-admin/*           /              301

@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import StoryCard from '../components/StoryCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { getStories } from '../lib/stories';
+
+const stories = await getStories();
+---
+
+<Base title="Our Stories" description="Stories of resilience and change from the young people and communities of Bwaise, Kampala.">
+  <section class="head">
+    <div class="container">
+      <p class="eyebrow">Our Stories</p>
+      <h1>Change, told by the people living it</h1>
+      <p class="lead">
+        Real stories from Bwaise and beyond: young people finding their voice, returning to school, and building livelihoods.
+      </p>
+    </div>
+  </section>
+
+  <section class="section list">
+    <div class="container grid-3">
+      {stories.map((s) => <StoryCard story={s} headingLevel="h2" />)}
+    </div>
+  </section>
+
+  <CtaBand title="Have a story to tell?" text="Our Story Competition is building a library of original children's stories in English and African indigenous languages." />
+</Base>
+
+<style>
+  .head {
+    padding-block: clamp(3rem, 7vw, 5rem) 0;
+  }
+  .head .lead {
+    max-width: 60ch;
+  }
+  .list {
+    padding-top: 2.5rem;
+  }
+</style>

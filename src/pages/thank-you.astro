@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Thank you" noindex>
+  <section class="section">
+    <div class="container-narrow wrap">
+      <div class="icon" aria-hidden="true">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+      </div>
+      <h1 data-title>Thank you!</h1>
+      <p class="lead" data-message>We've received your message and will be in touch soon.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="/">Back to home</a>
+        <a class="btn btn-outline" href="/our-stories/">Read our stories</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const messages: Record<string, [string, string]> = {
+    volunteer: ['Application received', "Thank you for offering your time and skills. Our team will review your application and get back to you."],
+    story: ['Story submitted', 'Thank you for sharing your story with us. Every story matters, and we will be in touch about next steps.'],
+    newsletter: ["You're signed up", "Thanks for joining us. You'll hear from us with stories and updates from Bwaise."],
+  };
+  const form = new URLSearchParams(location.search).get('form') ?? '';
+  const m = messages[form];
+  if (m) {
+    document.querySelector('[data-title]')!.textContent = m[0];
+    document.querySelector('[data-message]')!.textContent = m[1];
+  }
+</script>
+
+<style>
+  .wrap {
+    text-align: center;
+    padding-block: 2rem;
+  }
+  .icon {
+    display: grid;
+    place-items: center;
+    width: 84px;
+    height: 84px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    background: var(--green-100);
+    color: var(--green-700);
+  }
+  .btn-row {
+    justify-content: center;
+    margin-top: 2rem;
+  }
+</style>

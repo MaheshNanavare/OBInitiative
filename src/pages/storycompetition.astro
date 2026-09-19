@@ -1,0 +1,278 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { formEndpoint, storyCompetitionDeadline } from '../config';
+
+import level1 from '../assets/story/level-1.png';
+import level2 from '../assets/story/level-2.png';
+import level3 from '../assets/story/level-3.png';
+import ogImg from '../assets/story/submission.jpg';
+
+const deadline = storyCompetitionDeadline
+  ? new Date(storyCompetitionDeadline).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
+  : null;
+
+const levels = [
+  { n: 1, name: 'Tiny Readers', img: level1, points: ['Simple vocabulary', 'One clear lesson', 'Short sentences', 'Repetition encouraged', 'Colourful imagination'] },
+  { n: 2, name: 'Growing Readers', img: level2, points: ['Clear beginning, middle and end', 'Simple dialogue', 'Positive values', 'Easy to read independently', 'Engaging characters'] },
+  { n: 3, name: 'Independent Readers', img: level3, points: ['Rich characters', 'Interesting plot', 'Cultural relevance', 'Meaningful life lesson', 'Complex themes'] },
+];
+
+const themes = ['Kindness', 'Friendship', 'Education', 'Culture', 'Hope', 'Wisdom', 'Nature', 'Community', 'Respect', 'Celebrations'];
+
+const guidelines = [
+  ['Original work', "must be your own, not infringing on anyone's copyright"],
+  ['Suitable content', 'appropriate for children, promotes positive values'],
+  ['Include a title', 'clear, engaging title'],
+  ['Author details', 'name and contact info (or anonymous)'],
+  ['Language', 'English or any African indigenous language'],
+  ['All welcome', 'writers, storytellers, teachers, parents, community members'],
+];
+---
+
+<Base
+  title="Story Competition"
+  description="Share your story with the world. Submit an original children's story in English or an African indigenous language to the Obuyisi bw'Omu Initiative Story Competition."
+  image={ogImg}
+>
+  <section class="intro">
+    <div class="container intro-grid">
+      <div>
+        <p class="eyebrow">Story Competition</p>
+        <h1>Share your story with the world</h1>
+        <p class="lead">
+          <strong>Every story matters.</strong> We're building a library of original stories that teach, inspire, and celebrate
+          African cultures and languages.
+        </p>
+        <p>
+          The Obuyisi bw'Omu Initiative invites writers, storytellers, teachers, parents, and community members to submit stories
+          in indigenous languages or English. Help us preserve our languages while creating stories that empower and transform
+          children across the world.
+        </p>
+        <p class="deadline">
+          <span>Submission deadline</span>
+          <strong>{deadline ?? 'To be announced'}</strong>
+          {deadline && <em>Don't miss this opportunity to make your story a lasting legacy!</em>}
+        </p>
+        <a class="btn btn-primary" href="#submit">Submit your story</a>
+      </div>
+      <div class="readers" aria-hidden="true">
+        <Image src={level3} alt="" height={336} />
+        <Image src={level1} alt="" height={208} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-sand">
+    <div class="container">
+      <div class="section-head center">
+        <h2>Story levels</h2>
+        <p>Write for one of three reading levels.</p>
+      </div>
+      <div class="grid-3">
+        {
+          levels.map((l) => (
+            <div class="card level">
+              <Image src={l.img} alt="" height={170} style="height:150px;width:auto" />
+              <p class="level-n">Level {l.n}</p>
+              <h3>{l.name}</h3>
+              <ul class="checklist">
+                {l.points.map((p) => <li>{p}</li>)}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid-2 top">
+      <div>
+        <h2>Story themes</h2>
+        <ul class="themes">
+          {themes.map((t) => <li>{t}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h2>Submission guidelines</h2>
+        <ul class="checklist">
+          {guidelines.map(([k, v]) => <li><strong>{k}</strong>: {v}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-sand" id="submit">
+    <div class="container-narrow">
+      <div class="section-head center">
+        <h2>Submit your story</h2>
+        <p>Fields marked <span class="required">*</span> are required.</p>
+      </div>
+      <form class="form card" method="post" action={formEndpoint}>
+        <input type="hidden" name="form" value="story" />
+        <div class="form-row">
+          <div class="field">
+            <label for="name">Name <span class="required">*</span></label>
+            <input id="name" name="name" type="text" required autocomplete="name" maxlength="120" />
+          </div>
+          <div class="field">
+            <label for="email">Email <span class="required">*</span></label>
+            <input id="email" name="email" type="email" required autocomplete="email" maxlength="200" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="school">School / institution affiliation</label>
+          <input id="school" name="school" type="text" maxlength="200" />
+        </div>
+        <fieldset class="field">
+          <legend>Age confirmation <span class="required">*</span></legend>
+          <label class="choice"><input type="radio" name="age" value="18+" required /> I am 18 years or older</label>
+          <label class="choice"><input type="radio" name="age" value="under-18 with guardian consent" /> I am under 18 and my parent or guardian has given consent for me to submit this story</label>
+        </fieldset>
+        <div class="field">
+          <label for="level">Story level <span class="required">*</span></label>
+          <select id="level" name="level" required>
+            <option value="">Choose a level</option>
+            {levels.map((l) => <option value={`Level ${l.n} – ${l.name}`}>Level {l.n} – {l.name}</option>)}
+          </select>
+        </div>
+        <div class="field">
+          <label for="title">Story title <span class="required">*</span></label>
+          <span class="hint" id="title-hint">Maximum 20 characters.</span>
+          <input id="title" name="title" type="text" required maxlength="20" aria-describedby="title-hint" />
+        </div>
+        <div class="field">
+          <label for="story">Your story <span class="required">*</span></label>
+          <span class="hint" id="story-hint">Maximum 20,000 characters. <span data-count>0</span> / 20,000</span>
+          <textarea id="story" name="story" required maxlength="20000" rows="14" aria-describedby="story-hint"></textarea>
+        </div>
+        <label class="choice">
+          <input type="checkbox" name="license" value="agreed" required />
+          <span>
+            <strong>License agreement <span class="required">*</span></strong><br />
+            I confirm this story is my own original work, and I grant Obuyisi bw'Omu Initiative permission to publish, translate
+            and share it for non-commercial, educational purposes, with credit to me as the author (or anonymously if I request
+            it).
+          </span>
+        </label>
+        <div class="hp" aria-hidden="true">
+          <label>Leave this field empty <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+        </div>
+        <button class="btn btn-primary" type="submit">Submit story</button>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const story = document.querySelector<HTMLTextAreaElement>('#story');
+  const count = document.querySelector<HTMLElement>('[data-count]');
+  if (story && count) {
+    const update = () => (count.textContent = story.value.length.toLocaleString('en-US'));
+    story.addEventListener('input', update);
+    update();
+  }
+</script>
+
+<style>
+  .intro {
+    padding-block: clamp(3rem, 7vw, 5.5rem);
+    background:
+      radial-gradient(ellipse at 100% 0%, var(--amber-100), transparent 55%),
+      radial-gradient(ellipse at 0% 100%, var(--green-100), transparent 55%);
+  }
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  .readers {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 1rem;
+  }
+  /* The illustrations have white backgrounds; multiply blends them into the page. */
+  .readers img,
+  .level img {
+    width: auto;
+    mix-blend-mode: multiply;
+  }
+  .readers img:first-child {
+    height: 300px;
+  }
+  .readers img:last-child {
+    height: 190px;
+  }
+  @media (max-width: 800px) {
+    .intro-grid {
+      grid-template-columns: 1fr;
+    }
+    .readers {
+      display: none;
+    }
+  }
+  .deadline {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0 1.75rem;
+    background: var(--white);
+    border-left: 4px solid var(--amber-500);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    max-width: 460px;
+  }
+  .deadline span {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .deadline strong {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--purple-900);
+  }
+  .deadline em {
+    font-size: 0.925rem;
+    color: var(--ink-soft);
+  }
+  .level img {
+    margin: 0 auto 1rem;
+  }
+  .level-n {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--green-700);
+  }
+  .top {
+    align-items: start;
+  }
+  .themes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .themes li {
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    background: var(--purple-50);
+    border: 1px solid var(--purple-100);
+    color: var(--purple-800);
+    font-weight: 600;
+  }
+  .form .btn {
+    justify-self: start;
+  }
+</style>

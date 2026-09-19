@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "obi-website",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-09-01",
+  "observability": { "enabled": true },
+  "assets": {
+    // Astro builds the static site into ./dist
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "html_handling": "force-trailing-slash",
+    // Only form submissions hit the Worker; every other request is served straight from static assets.
+    "run_worker_first": ["/api/*"]
+  },
+  // Form submissions are stored here. Create it with:
+  //   npx wrangler kv namespace create SUBMISSIONS
+  // then paste the returned id below and uncomment.
+  // "kv_namespaces": [
+  //   { "binding": "SUBMISSIONS", "id": "<paste-id-here>" }
+  // ]
+}

@@ -1,0 +1,79 @@
+---
+import { Image } from 'astro:assets';
+import { donateUrl } from '../config';
+import photo from '../assets/photos/team-volunteers.jpg';
+
+interface Props {
+  title?: string;
+  text?: string;
+}
+
+const {
+  title = 'Join us in making a lasting difference',
+  text = 'Your support invests in dignity and long-term change. Give, fundraise, or lend your skills to a community-first movement in Uganda.',
+} = Astro.props;
+---
+
+<section class="cta">
+  <div class="container">
+    <div class="panel">
+      <div class="copy">
+        <h2>{title}</h2>
+        <p>{text}</p>
+        <div class="btn-row">
+          <a class="btn btn-donate" href={donateUrl} target="_blank" rel="noopener">Donate now</a>
+          <a class="btn btn-light" href="/apply-as-a-volunteer-or-intern/">Volunteer with us</a>
+        </div>
+      </div>
+      <div class="media">
+        <Image src={photo} alt="Obuyisi bw'Omu Initiative volunteers standing together in Bwaise" widths={[500, 900]} sizes="(max-width: 860px) 100vw, 480px" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    padding-block: var(--section);
+  }
+  .panel {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    align-items: stretch;
+    background:
+      radial-gradient(circle at 0% 0%, rgb(60 138 62 / 0.35), transparent 45%),
+      linear-gradient(135deg, var(--purple-800), var(--purple-900));
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  .copy {
+    padding: clamp(2rem, 5vw, 4rem);
+    color: #ebe0f5;
+  }
+  h2 {
+    color: var(--white);
+  }
+  p {
+    font-size: 1.125rem;
+    max-width: 48ch;
+  }
+  .btn-row {
+    margin-top: 1.5rem;
+  }
+  .media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 35%;
+  }
+  @media (max-width: 860px) {
+    .panel {
+      grid-template-columns: 1fr;
+    }
+    .media {
+      aspect-ratio: 16 / 10;
+      order: -1;
+    }
+  }
+</style>

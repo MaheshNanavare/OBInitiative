@@ -1,0 +1,116 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { formEndpoint } from '../config';
+
+import heroImg from '../assets/photos/team-volunteers.jpg';
+import volunteerImg from '../assets/photos/green-daddy-foundation-cleanup.jpg';
+import internImg from '../assets/photos/youth-hub.jpg';
+---
+
+<Base
+  title="Apply as a Volunteer or Intern"
+  description="Volunteer or intern with Obuyisi bw'Omu Initiative and gain hands-on experience in education, climate, health and youth empowerment in Uganda."
+  image={heroImg}
+>
+  <PageHero
+    eyebrow="Apply as a volunteer or intern"
+    title="Be part of a movement that uplifts from within"
+    image={heroImg}
+    imageAlt="Obuyisi bw'Omu Initiative volunteers standing together outside a building in Bwaise"
+    focus="50% 30%"
+  />
+
+  <section class="section">
+    <div class="container grid-2 options">
+      <article>
+        <div class="photo"><Image src={volunteerImg} alt="Volunteers loading waste onto a truck during a community clean-up" widths={[500, 900]} sizes="(max-width: 900px) 100vw, 540px" /></div>
+        <p class="eyebrow">Volunteer with purpose</p>
+        <h2>Come as you are</h2>
+        <p>
+          At Obuyisi bw'Omu Initiative, volunteering means more than just giving time—it's about joining hands with communities
+          and driving meaningful, people-first solutions. From mental health to clean water, your energy, skills, and heart can
+          ignite hope and create a ripple of lasting impact. Come as you are—your presence could be the start of someone's
+          healing journey.
+        </p>
+      </article>
+      <article>
+        <div class="photo"><Image src={internImg} alt="Young people gathered at a youth hub session" widths={[500, 900]} sizes="(max-width: 900px) 100vw, 540px" /></div>
+        <p class="eyebrow">Intern and grow with us</p>
+        <h2>Learn through impact. Lead through experience.</h2>
+        <p>
+          Our internship program offers more than professional development—it's a deep dive into grassroots work that transforms
+          lives. As an intern with Obuyisi bw'Omu Initiative, you'll gain hands-on experience in real-world challenges across
+          education, climate, health, and empowerment. You won't just build your CV—you'll help build a better future.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section section-sand" id="apply">
+    <div class="container-narrow">
+      <div class="section-head center">
+        <h2>Apply now</h2>
+        <p>Tell us a little about yourself and we'll be in touch.</p>
+      </div>
+      <form class="form card" method="post" action={formEndpoint}>
+        <input type="hidden" name="form" value="volunteer" />
+        <fieldset class="field">
+          <legend>I'd like to apply as a <span class="required">*</span></legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="role" value="Volunteer" required checked /> Volunteer</label>
+            <label class="choice"><input type="radio" name="role" value="Intern" /> Intern</label>
+          </div>
+        </fieldset>
+        <div class="form-row">
+          <div class="field">
+            <label for="name">Name <span class="required">*</span></label>
+            <input id="name" name="name" type="text" required autocomplete="name" maxlength="120" />
+          </div>
+          <div class="field">
+            <label for="email">Email <span class="required">*</span></label>
+            <input id="email" name="email" type="email" required autocomplete="email" maxlength="200" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="phone">Phone number</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40" />
+          </div>
+          <div class="field">
+            <label for="country">Current national country of origin <span class="required">*</span></label>
+            <input id="country" name="country" type="text" required autocomplete="country-name" maxlength="80" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="message">Your message <span class="required">*</span></label>
+          <span class="hint" id="message-hint">What skills would you like to share, and when are you available?</span>
+          <textarea id="message" name="message" required maxlength="5000" aria-describedby="message-hint"></textarea>
+        </div>
+        <div class="hp" aria-hidden="true">
+          <label>Leave this field empty <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+        </div>
+        <button class="btn btn-primary" type="submit">Send application</button>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .options .photo {
+    aspect-ratio: 16 / 10;
+    margin-bottom: 1.75rem;
+  }
+  .options {
+    align-items: start;
+  }
+  .choices {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.4rem;
+  }
+  .form .btn {
+    justify-self: start;
+  }
+</style>

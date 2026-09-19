@@ -1,0 +1,210 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/brand/logo.png';
+import SocialIcon from './SocialIcon.astro';
+import { site, socials, donateUrl, formEndpoint } from '../config';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="top">
+      <div class="about">
+        <a href="/" class="brand">
+          <span class="logo-disc"><Image src={logo} alt="" width={48} height={48} /></span>
+          <span>{site.name}</span>
+        </a>
+        <p class="motto">“{site.motto}”</p>
+        <p>
+          A community-led organisation born in {site.location.split(',')[0]} in {site.founded}, working for mental health,
+          clean water, climate resilience and quality education.
+        </p>
+        <ul class="socials" aria-label="Follow us">
+          {
+            socials.map((s) => (
+              <li>
+                <a href={s.url} target="_blank" rel="noopener" aria-label={s.name}>
+                  <SocialIcon name={s.name} />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <nav class="links" aria-label="Footer">
+        <div>
+          <h2>Who we are</h2>
+          <ul>
+            <li><a href="/our-story/">Our Story</a></li>
+            <li><a href="/our-story/#team">Our Team</a></li>
+            <li><a href="/our-projects/">Our Projects</a></li>
+            <li><a href="/our-stories/">Our Stories</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Get involved</h2>
+          <ul>
+            <li><a href={donateUrl} target="_blank" rel="noopener">Donate</a></li>
+            <li><a href="/fund-us/">Fund Us</a></li>
+            <li><a href="/support-a-project/">Support a Project</a></li>
+            <li><a href="/fundraise-for-us/">Fundraise For Us</a></li>
+            <li><a href="/apply-as-a-volunteer-or-intern/">Volunteer or Intern</a></li>
+            <li><a href="/storycompetition/">Story Competition</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="newsletter">
+        <h2>Stay in the loop</h2>
+        <p>Get stories and updates from Bwaise in your inbox.</p>
+        <form class="signup" method="post" action={formEndpoint}>
+          <input type="hidden" name="form" value="newsletter" />
+          <label class="visually-hidden" for="footer-email">Email address</label>
+          <input id="footer-email" type="email" name="email" required placeholder="Your email address" autocomplete="email" />
+          <div class="hp" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off" /></div>
+          <button class="btn btn-donate" type="submit">Sign up</button>
+        </form>
+        <a class="more" href="/sign-up/">More sign-up options</a>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <p>© {year} {site.name}. All rights reserved.</p>
+      <p>{site.location}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--purple-900);
+    color: #d9cbe8;
+    padding-block: clamp(3rem, 7vw, 5rem) 1.5rem;
+    font-size: 0.975rem;
+  }
+  .top {
+    display: grid;
+    gap: 2.5rem;
+    grid-template-columns: 1.3fr 1.2fr 1fr;
+  }
+  @media (max-width: 900px) {
+    .top {
+      grid-template-columns: 1fr;
+    }
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--white);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .logo-disc {
+    display: grid;
+    place-items: center;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: var(--white);
+    flex: none;
+  }
+  .motto {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--amber-500);
+    margin-bottom: 0.6rem;
+  }
+  h2 {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+  .links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .links li + li {
+    margin-top: 0.55rem;
+  }
+  a {
+    color: #e9def3;
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--white);
+    text-decoration: underline;
+  }
+  .socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+  }
+  .socials a {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.08);
+    color: var(--white);
+    transition: background-color 0.15s ease;
+  }
+  .socials a:hover {
+    background: var(--amber-500);
+    color: var(--purple-900);
+  }
+  .signup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .signup input[type='email'] {
+    flex: 1 1 200px;
+    min-width: 0;
+    font: inherit;
+    padding: 0.8rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgb(255 255 255 / 0.25);
+    background: rgb(255 255 255 / 0.08);
+    color: var(--white);
+  }
+  .signup input::placeholder {
+    color: #bfaed3;
+  }
+  .more {
+    font-size: 0.9rem;
+    text-decoration: underline;
+  }
+  .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    border-top: 1px solid rgb(255 255 255 / 0.12);
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    font-size: 0.875rem;
+    color: #b6a3cc;
+  }
+  .bottom p {
+    margin: 0;
+  }
+</style>

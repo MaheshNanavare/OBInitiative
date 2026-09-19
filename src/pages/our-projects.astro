@@ -1,0 +1,250 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { focusAreas } from '../data/projects';
+
+import heroImg from '../assets/photos/community-awareness-2.jpg';
+import mentalA from '../assets/photos/mental-health-summit.jpg';
+import mentalB from '../assets/photos/mental-health-run-banner.jpg';
+import washA from '../assets/photos/water-collection.jpg';
+import washB from '../assets/photos/waste-channel.jpg';
+import washC from '../assets/photos/green-daddy-foundation-cleanup.jpg';
+import climateA from '../assets/photos/tree-planting.jpg';
+import climateB from '../assets/photos/cleaning-activity.jpg';
+import eduA from '../assets/photos/book-distribution-3.jpg';
+import eduB from '../assets/photos/youth-hub.jpg';
+
+type Photo = { src: ImageMetadata; alt: string };
+const photos: Record<string, Photo[]> = {
+  'mental-health': [
+    { src: mentalA, alt: 'Signing the commitment board at the Mental Health Summit 2024' },
+    { src: mentalB, alt: 'Obuyisi bw\'Omu Initiative team and runners at the Mental Health Run 2025' },
+  ],
+  wash: [
+    { src: washA, alt: 'A girl fetching water into yellow jerrycans' },
+    { src: washB, alt: 'A drainage channel in Bwaise blocked with waste' },
+    { src: washC, alt: 'Volunteers loading collected waste onto a truck during a clean-up with Green Daddy Foundation' },
+  ],
+  climate: [
+    { src: climateA, alt: 'Community members planting a tree seedling' },
+    { src: climateB, alt: 'Volunteers clearing and tending a green space' },
+  ],
+  education: [
+    { src: eduA, alt: 'Children holding up exercise books received from the campaign' },
+    { src: eduB, alt: 'Children and youth gathered at a youth hub session' },
+  ],
+};
+const byId = Object.fromEntries(focusAreas.map((f) => [f.id, f]));
+---
+
+<Base
+  title="Our Projects"
+  description="Kyogere mental health campaign, SITUKA! sanitation drive, Green Eco-Lab climate clubs and the Flow with Dignity education campaign."
+  image={heroImg}
+>
+  <PageHero
+    eyebrow="Our Projects"
+    title="Connected problems need united action"
+    lead="Mental health, clean water, climate and education are linked in the lives of the families we serve. Our four programmes tackle them together."
+    image={heroImg}
+    imageAlt="Young people from Bwaise seated together during a community awareness session"
+  />
+
+  <nav class="jump container" aria-label="Projects on this page">
+    {focusAreas.map((f) => <a href={`#${f.id}`} class={`chip chip-${f.color}`}>{f.area}</a>)}
+  </nav>
+
+  <!-- Mental health -->
+  <section id="mental-health" class="section project">
+    <div class="container grid-2">
+      <div>
+        <span class="tag">{byId['mental-health'].area}</span>
+        <h2>Kyogere Campaign</h2>
+        <p class="lead">
+          Through our Kyogere ("Say It Out") Campaign, we use storytelling and humour to share factual information, tackle
+          stigma and myths, and foster community dialogue on mental health.
+        </p>
+        <p>
+          Mental health—our emotional, psychological, and social wellbeing—has long been overlooked. Challenges range from
+          lack of information and stigma to few experts and facilities.
+        </p>
+        <p>
+          We run sensitization drives, introduce the green ribbon movement in schools, and promote sports for good health.
+          By partnering with schools, offering counselling, and creating safe spaces for conversation, Kyogere is building a
+          movement for lasting change in mental health awareness and support.
+        </p>
+      </div>
+      <div class="gallery two">
+        {photos['mental-health'].map((p) => <div class="photo"><Image src={p.src} alt={p.alt} widths={[400, 800]} sizes="(max-width: 900px) 50vw, 300px" /></div>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- WASH -->
+  <section id="wash" class="section section-sand project">
+    <div class="container grid-2 flip">
+      <div>
+        <span class="tag tag-blue">{byId.wash.area}</span>
+        <h2>SITUKA! Bulamu Bwetulongoosa Drive</h2>
+        <p class="lead">
+          A healthy community is free from disease—but urban slums like Bwaise face poor waste disposal and unaffordable
+          clean water.
+        </p>
+        <p>
+          Through our SITUKA! Bulamu Bwetulongoosa Drive, we promote clean water sources, good hygiene, and community
+          ownership. By preventing avoidable diseases, families save money for other needs. We advocate for cleaner streams,
+          proper waste management, and collective responsibility for better health.
+        </p>
+      </div>
+      <div class="gallery three">
+        {photos.wash.map((p) => <div class="photo"><Image src={p.src} alt={p.alt} widths={[400, 800]} sizes="(max-width: 900px) 50vw, 300px" /></div>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Climate -->
+  <section id="climate" class="section project">
+    <div class="container grid-2">
+      <div>
+        <span class="tag tag-green">{byId.climate.area}</span>
+        <h2>Green Eco-Lab</h2>
+        <p class="lead">Climate change is real and unfolding before us, leaving many communities helpless—but it's not too late to act.</p>
+        <p>
+          At Obuyisi bw'Omu Initiative, we're establishing climate clubs in schools and communities to share knowledge and
+          practical skills. These clubs train young people—both male and female—to develop grassroots solutions for climate
+          adaptation, making underserved communities more resilient.
+        </p>
+        <p>
+          Our Green Eco-Lab is a 5-month intensive project equipping communities with hands-on skills for sustainable
+          living. Through workshops and training, participants learn practical, eco-friendly methods to protect their local
+          environments and take meaningful climate action.
+        </p>
+      </div>
+      <div class="gallery two">
+        {photos.climate.map((p) => <div class="photo"><Image src={p.src} alt={p.alt} widths={[400, 800]} sizes="(max-width: 900px) 50vw, 300px" /></div>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section id="education" class="section section-sand project">
+    <div class="container">
+      <div class="grid-2 flip">
+        <div>
+          <span class="tag tag-amber">{byId.education.area}</span>
+          <h2>Flow with Dignity Campaign</h2>
+          <p class="lead">
+            Education unlocks development, yet many face barriers like lacking materials, long distances, and poor mental
+            health. Aligning with SDG 4, we bridge gaps through four programmes.
+          </p>
+        </div>
+        <div class="gallery two">
+          {photos.education.map((p) => <div class="photo"><Image src={p.src} alt={p.alt} widths={[400, 800]} sizes="(max-width: 900px) 50vw, 300px" /></div>)}
+        </div>
+      </div>
+      <ol class="programmes">
+        <li class="card">
+          <h3>Flow with Dignity</h3>
+          <p>Provides pads and menstrual health education to girls, engaging boys to reduce stigma.</p>
+        </li>
+        <li class="card">
+          <h3>A Backpack at a Time</h3>
+          <p>Supplies essential scholastic materials to the most vulnerable children.</p>
+        </li>
+        <li class="card">
+          <h3>Vocational Training</h3>
+          <p>Empowers youth through carpentry, mechanics, and plumbing—reaching schooled, unschooled, and skilled individuals.</p>
+        </li>
+        <li class="card">
+          <h3>Digital Literacy (E-Ghetto Initiative)</h3>
+          <p>Teaches basic computer skills to children aged 5–11 in neglected areas, bridging the digital divide.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <CtaBand title="Sponsor a project" text="Help communities thrive with strength and dignity. Your gift goes straight to the programmes above." />
+</Base>
+
+<style>
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    padding-block: 1.5rem 0;
+  }
+  .chip {
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    border: 1.5px solid var(--line);
+    background: var(--white);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .chip:hover {
+    border-color: var(--purple-600);
+    color: var(--purple-700);
+  }
+  .project h2 {
+    margin-top: 0.9rem;
+  }
+  .grid-2.flip > :first-child {
+    order: 2;
+  }
+  @media (max-width: 900px) {
+    .grid-2.flip > :first-child {
+      order: 0;
+    }
+  }
+  .gallery {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+  }
+  .gallery .photo {
+    aspect-ratio: 3 / 4;
+  }
+  .gallery.two .photo:nth-child(2) {
+    margin-top: 3rem;
+  }
+  .gallery.three .photo:first-child {
+    grid-row: span 2;
+    aspect-ratio: auto;
+  }
+  .gallery.three .photo:not(:first-child) {
+    aspect-ratio: 4 / 3;
+  }
+  .programmes {
+    list-style: none;
+    padding: 0;
+    margin: clamp(2rem, 5vw, 3rem) 0 0;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    counter-reset: prog;
+  }
+  .programmes li {
+    counter-increment: prog;
+  }
+  .programmes li::before {
+    content: counter(prog, lower-alpha) ')';
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--amber-600);
+    margin-bottom: 0.4rem;
+  }
+  .programmes h3 {
+    font-size: 1.2rem;
+  }
+  .programmes p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.975rem;
+  }
+</style>

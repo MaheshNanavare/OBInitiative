@@ -1,0 +1,23 @@
+# build output
+dist/
+# generated types
+.astro/
+.wrangler/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+
+# environment variables
+.env
+.env.production
+.dev.vars
+
+# source material exported from the old WordPress site (images already copied into src/assets)
+Useful Images for new website/
+OBI content text.pdf
+
+.DS_Store
+.idea/

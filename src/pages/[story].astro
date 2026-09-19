@@ -1,0 +1,109 @@
+---
+// Individual story pages, served at the site root (e.g. /my-story-nansereko-shanita/) to match the old WordPress URLs.
+import { Image } from 'astro:assets';
+import { render, type CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import StoryCard from '../components/StoryCard.astro';
+import { getStories, formatDate } from '../lib/stories';
+import { donateUrl } from '../config';
+
+export async function getStaticPaths() {
+  const stories = await getStories();
+  return stories.map((story) => ({ params: { story: story.id }, props: { story } }));
+}
+
+interface Props {
+  story: CollectionEntry<'stories'>;
+}
+
+const { story } = Astro.props;
+const { Content } = await render(story);
+const { title, date, excerpt, cover, coverAlt, category } = story.data;
+const more = (await getStories()).filter((s) => s.id !== story.id).slice(0, 3);
+---
+
+<Base title={title} description={excerpt} image={cover} type="article">
+  <article>
+    <header class="story-head">
+      <div class="container-narrow">
+        <a class="back" href="/our-stories/">← All stories</a>
+        <p class="meta">
+          <span class="tag">{category}</span>
+          <time datetime={date.toISOString()}>{formatDate(date)}</time>
+        </p>
+        <h1>{title}</h1>
+      </div>
+    </header>
+    <div class="container cover-wrap">
+      <div class="photo cover">
+        <Image src={cover} alt={coverAlt} widths={[700, 1100, 1600]} sizes="(max-width: 1180px) 100vw, 1100px" loading="eager" fetchpriority="high" />
+      </div>
+    </div>
+    <div class="container-narrow prose body">
+      <Content />
+    </div>
+    <aside class="container-narrow">
+      <div class="support card">
+        <h2>Help write the next chapter</h2>
+        <p>Stories like this happen because people like you give. Every contribution goes to children and youth in Bwaise.</p>
+        <div class="btn-row">
+          <a class="btn btn-donate" href={donateUrl} target="_blank" rel="noopener">Donate</a>
+          <a class="btn btn-outline" href="/apply-as-a-volunteer-or-intern/">Volunteer</a>
+        </div>
+      </div>
+    </aside>
+  </article>
+
+  <section class="section section-sand">
+    <div class="container">
+      <h2>More stories</h2>
+      <div class="grid-3">
+        {more.map((s) => <StoryCard story={s} />)}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .story-head {
+    padding-block: clamp(2.5rem, 6vw, 4rem) 2rem;
+  }
+  .back {
+    display: inline-block;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+  }
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--ink-muted);
+    font-size: 0.925rem;
+  }
+  h1 {
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+  }
+  .cover-wrap {
+    max-width: 1100px;
+  }
+  .cover {
+    aspect-ratio: 16 / 8;
+  }
+  @media (max-width: 700px) {
+    .cover {
+      aspect-ratio: 4 / 3;
+    }
+  }
+  .body {
+    padding-block: clamp(2.5rem, 5vw, 3.5rem) 1rem;
+  }
+  .support {
+    margin-bottom: var(--section);
+    background: var(--purple-50);
+    border-color: var(--purple-100);
+  }
+  .support h2 {
+    font-size: 1.5rem;
+  }
+</style>
