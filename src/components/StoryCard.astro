@@ -39,14 +39,6 @@ const Heading = headingLevel;
     border: 1px solid var(--line);
     border-radius: var(--radius);
     overflow: hidden;
-    box-shadow: var(--shadow-sm);
-    transition:
-      transform 0.2s ease,
-      box-shadow 0.2s ease;
-  }
-  .story-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow);
   }
   .media {
     aspect-ratio: 16 / 10;
@@ -83,6 +75,12 @@ const Heading = headingLevel;
   .title a {
     color: var(--purple-900);
     text-decoration: none;
+  }
+  .story-card:hover .title a {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--green-600);
+    text-underline-offset: 0.2em;
   }
   /* Whole card is clickable via the heading link. */
   .title a::after {

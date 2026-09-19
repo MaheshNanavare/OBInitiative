@@ -7,9 +7,9 @@ import barbra from '../assets/team/mirembe-barbra.jpg';
 import maimuna from '../assets/team/maimuna-nakanwagi.jpg';
 import athalia from '../assets/team/kataike-athalia-lenny.jpg';
 import kaone from '../assets/team/kaone-selebogo.jpg';
-import ricardo from '../assets/team/ricardo-torres-haces.jpg';
+import ricardo from '../assets/team/ricardo-torres-haces.jpeg';
 import ignatius from '../assets/team/ignatius-neshena.png';
-import sophie from '../assets/team/sophie-cumberpatch.jpg';
+import sophie from '../assets/team/sophie-cumberpatch.jpeg';
 import bayabonga from '../assets/team/bayabonga-nhlabatsi.jpg';
 import mahesh from '../assets/team/mahesh-nanavare.jpg';
 
@@ -20,8 +20,6 @@ export type TeamMember = {
   photo: ImageMetadata;
   /** CSS object-position, to keep faces in frame when the photo is cropped square. */
   focus?: string;
-  /** Zoom into the photo (e.g. 1.6) when the person is small in the frame, such as full-length shots. */
-  zoom?: number;
 };
 
 export const team: TeamMember[] = [
@@ -31,7 +29,6 @@ export const team: TeamMember[] = [
     bio: "With a passion for community transformation, leads Obuyisi bw'Omu Initiative, focusing on bridging access gaps for sustainable, impactful change across Uganda.",
     photo: moses,
     focus: '50% 22%',
-    zoom: 1.9,
   },
   {
     name: 'Nachipa Flavia Diana',
@@ -46,7 +43,6 @@ export const team: TeamMember[] = [
     bio: 'A social impact advisor and changemaker with over 20 years of experience and skills in leadership, coaching, marketing and strategy development.',
     photo: catherine,
     focus: '50% 10%',
-    zoom: 2.2,
   },
   {
     name: 'Buyinza Levi',
@@ -54,7 +50,6 @@ export const team: TeamMember[] = [
     bio: 'Buyinza Levi brings on board a vast wealth of experience in Administration, Logistics and Human Resource Management.',
     photo: levi,
     focus: '50% 15%',
-    zoom: 1.6,
   },
   {
     name: 'Mirembe Barbra',
@@ -90,7 +85,6 @@ export const team: TeamMember[] = [
     bio: 'His work integrates data-driven analysis, policy implementation, and capacity-building strategies to strengthen institutional accountability and advance gender equality, education, and human rights protection in diverse cultural settings.',
     photo: ricardo,
     focus: '50% 20%',
-    zoom: 1.5,
   },
   {
     name: 'Ignatius Neshena',
@@ -104,7 +98,6 @@ export const team: TeamMember[] = [
     bio: "I am an Experimental Psychology graduate from the University of Oxford with a passion for mental health. I look forward to furthering the organisation's mission through establishing meaningful relationships and communication strategies throughout both Uganda and Europe.",
     photo: sophie,
     focus: '55% 38%',
-    zoom: 1.5,
   },
   {
     name: 'Bayabonga Nhlabatsi',

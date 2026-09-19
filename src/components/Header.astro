@@ -110,12 +110,20 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgb(255 253 249 / 0.92);
-    backdrop-filter: saturate(1.4) blur(10px);
     border-bottom: 1px solid transparent;
     transition:
       border-color 0.2s ease,
       box-shadow 0.2s ease;
+  }
+  /* The frosted background lives on a pseudo-element: backdrop-filter on the header itself would make it the
+     containing block for the fixed mobile menu, squashing the menu into the header's 76px. */
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgb(255 253 249 / 0.92);
+    backdrop-filter: saturate(1.4) blur(10px);
   }
   .site-header.scrolled {
     border-bottom-color: var(--line);
@@ -349,6 +357,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     }
     .submenu {
       position: static;
+      background: none;
       box-shadow: none;
       border: 0;
       padding: 0 0 0.75rem 0.75rem;

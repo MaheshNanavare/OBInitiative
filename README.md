@@ -54,7 +54,7 @@ Put the cover photo in `src/assets/photos/`. Large originals are fine, since the
 
 ### Adding a team member
 
-Add the photo to `src/assets/team/`, import it at the top of `src/data/team.ts`, and add an entry to the list. If the face is small or off-centre in the round crop, adjust `focus` (for example `'50% 20%'` moves the crop up) and `zoom` (for example `1.6`).
+Add the photo to `src/assets/team/`, import it at the top of `src/data/team.ts`, and add an entry to the list. If the face is off-centre in the round crop, adjust `focus` (for example `'50% 20%'` moves the crop up). Photos are never zoomed in, so if the face is small in the frame, ask the person for a closer headshot.
 
 ## Forms
 

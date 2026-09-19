@@ -2,7 +2,7 @@
 title: 'Meet and Know Muzeyi Ashraf'
 date: 2024-09-19
 excerpt: "From his lowest moment to the classroom and the carpentry workshop: Ashraf's story is one of resilience, determination and hard work."
-cover: '../../assets/photos/carpentry.jpg'
+cover: '../../assets/photos/muzeyi-face.jpg'
 coverAlt: 'Muzeyi Ashraf at work in a carpentry workshop'
 category: 'Mental Health'
 ---

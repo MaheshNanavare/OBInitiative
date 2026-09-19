@@ -21,20 +21,24 @@
   --ink: #1e1826;
   --ink-soft: #4b4455;
   --ink-muted: #6e6778;
-  --line: #e6e0dc;
+  --line: #e7e1ea;
   --paper: #fffdf9;
-  --sand: #f7f1e8;
+  /* Alternate section tone: a pale lilac taken from the purple campaign banners. */
+  --sand: #f4eff8;
   --white: #ffffff;
 
   --font-display: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
   --font-body: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
-  --radius-sm: 8px;
-  --radius: 14px;
-  --radius-lg: 24px;
-  --shadow-sm: 0 1px 2px rgb(30 24 38 / 0.06), 0 1px 3px rgb(30 24 38 / 0.08);
-  --shadow: 0 8px 24px -8px rgb(30 24 38 / 0.18);
-  --shadow-lg: 0 24px 48px -16px rgb(45 20 71 / 0.28);
+  --radius-sm: 6px;
+  --radius: 12px;
+  --radius-lg: 20px;
+  /* The signature shape: one large rounded corner on feature photos, like an arch or a doorway. */
+  --arch: clamp(90px, 16vw, 200px);
+  /* Cards sit flat on a border. Only floating things (menus, feature photos) cast a shadow. */
+  --shadow-sm: none;
+  --shadow: 0 10px 30px -14px rgb(45 20 71 / 0.35);
+  --shadow-lg: 0 30px 60px -28px rgb(45 20 71 / 0.45);
 
   --container: 1180px;
   --gutter: clamp(1rem, 4vw, 2rem);
@@ -84,31 +88,38 @@ video {
   height: auto;
 }
 
+/* Fraunces picks its optical size from the font size (font-optical-sizing: auto), so big headlines get the
+   tight, high-contrast cut and small ones the sturdier text cut. */
 h1,
 h2,
 h3,
 h4 {
   font-family: var(--font-display);
   font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
   margin: 0 0 0.5em;
   color: var(--purple-900);
-  font-variation-settings: 'opsz' 72;
   text-wrap: balance;
 }
 
 h1 {
-  font-size: clamp(2.3rem, 5.2vw, 4rem);
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.015em;
 }
 h2 {
-  font-size: clamp(1.8rem, 3.6vw, 2.75rem);
+  font-size: clamp(1.85rem, 3.8vw, 3rem);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
 }
 h3 {
-  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-size: clamp(1.25rem, 2vw, 1.45rem);
+  letter-spacing: -0.005em;
 }
 h4 {
   font-size: 1.125rem;
+  letter-spacing: 0;
 }
 
 p {
@@ -184,27 +195,18 @@ a:hover {
   color: #d9cbe8;
 }
 
+/* The small line above a heading: a spoken-voice italic, like a caption, instead of a shouted label. */
 .eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-body);
-  font-size: 0.8125rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.125rem;
+  font-weight: 450;
+  line-height: 1.3;
   color: var(--green-700);
-  margin-bottom: 0.9rem;
-}
-.eyebrow::before {
-  content: '';
-  width: 1.75rem;
-  height: 2px;
-  background: currentColor;
-  border-radius: 2px;
+  margin-bottom: 0.6rem;
 }
 .section-purple .eyebrow {
-  color: var(--amber-500);
+  color: #c9e3c3;
 }
 
 .lead {
@@ -271,13 +273,13 @@ a:hover {
     transform 0.18s ease,
     box-shadow 0.18s ease;
 }
-.btn:hover {
-  transform: translateY(-1px);
+.btn:active {
+  transform: translateY(1px);
 }
+/* Amber is reserved for giving, so the donate button is the only amber thing in any view. */
 .btn-donate {
   background: var(--amber-500);
   color: var(--purple-900);
-  box-shadow: 0 6px 16px -6px rgb(224 142 11 / 0.6);
 }
 .btn-donate:hover {
   background: var(--amber-600);
@@ -325,18 +327,16 @@ a:hover {
 }
 
 .text-link {
+  align-self: flex-start;
   font-weight: 650;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--green-600);
+  text-underline-offset: 0.3em;
+  transition: text-underline-offset 0.18s ease;
 }
-.text-link::after {
-  content: '→';
-  transition: transform 0.18s ease;
-}
-.text-link:hover::after {
-  transform: translateX(3px);
+.text-link:hover {
+  text-underline-offset: 0.18em;
 }
 
 /* ---------- Cards & media ---------- */
@@ -352,7 +352,10 @@ a:hover {
 .photo {
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: var(--shadow);
+  background: var(--purple-100);
+}
+.photo.arch {
+  border-top-left-radius: var(--arch);
 }
 .photo img {
   width: 100%;
@@ -497,11 +500,10 @@ fieldset.field {
 
 .tag {
   display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 0.3rem 0.65rem;
+  font-size: 0.8125rem;
+  font-weight: 650;
+  line-height: 1.3;
+  padding: 0.25rem 0.7rem;
   border-radius: 999px;
   background: var(--purple-100);
   color: var(--purple-800);

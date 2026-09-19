@@ -40,12 +40,9 @@ const {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
     align-items: stretch;
-    background:
-      radial-gradient(circle at 0% 0%, rgb(60 138 62 / 0.35), transparent 45%),
-      linear-gradient(135deg, var(--purple-800), var(--purple-900));
+    background: var(--purple-900);
     border-radius: var(--radius-lg);
     overflow: hidden;
-    box-shadow: var(--shadow-lg);
   }
   .copy {
     padding: clamp(2rem, 5vw, 4rem);
@@ -67,6 +64,11 @@ const {
     object-fit: cover;
     object-position: 50% 35%;
   }
+  /* The photo takes the arch on its outer top corner, matching the feature photos elsewhere. */
+  .media {
+    border-top-right-radius: var(--arch);
+    overflow: hidden;
+  }
   @media (max-width: 860px) {
     .panel {
       grid-template-columns: 1fr;
@@ -74,6 +76,8 @@ const {
     .media {
       aspect-ratio: 16 / 10;
       order: -1;
+      border-top-right-radius: 0;
+      border-top-left-radius: var(--arch);
     }
   }
 </style>
