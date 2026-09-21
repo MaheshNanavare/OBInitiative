@@ -60,14 +60,7 @@ Add the photo to `src/assets/team/`, import it at the top of `src/data/team.ts`,
 
 The Volunteer/Intern form, Story Competition form and newsletter sign-up post to `/api/submit/`. The Worker checks the fields, drops spam caught by the hidden honeypot field, stores each submission in the `SUBMISSIONS` KV namespace, and redirects to `/thank-you/`.
 
-**One-time setup** (until this is done, forms show a "being set up" message):
-
-```sh
-npx wrangler login
-npx wrangler kv namespace create SUBMISSIONS
-```
-
-Copy the returned `id` into `wrangler.jsonc` (uncomment the `kv_namespaces` block), then deploy.
+The `SUBMISSIONS` namespace already exists and is wired up in `wrangler.jsonc`, so there is nothing to set up. If the forms ever show a "being set up" message, the `kv_namespaces` binding is missing from the deployed version: check `wrangler.jsonc` and deploy again.
 
 **Reading submissions:** open the Cloudflare dashboard → Storage & Databases → KV → SUBMISSIONS. Keys look like `volunteer:2026-10-01T09:30:00.000Z:ab12cd34`, so they sort by form and date. You can also use the CLI:
 
@@ -76,11 +69,25 @@ npx wrangler kv key list --binding SUBMISSIONS --remote --prefix story:
 npx wrangler kv key get  --binding SUBMISSIONS --remote "story:2026-10-01T09:30:00.000Z:ab12cd34"
 ```
 
-## Deploying and switching the domain
+**Nothing emails you when a form is submitted.** Entries sit in KV until someone looks, so make checking a regular habit — daily while the Story Competition is open, since entrants get no reply from us otherwise.
 
-1. `npx wrangler login`, then `npm run deploy`. The site goes live on a `*.workers.dev` URL, where you can check it.
-2. Add the domain to Cloudflare if it isn't there already. Then, in the Worker's **Settings → Domains & Routes**, add `obuyisibwomuinitiative.org` and `www.obuyisibwomuinitiative.org` as custom domains.
-3. Once the new site is live on the domain, the WordPress hosting can be retired.
+Automatic email notifications would need Cloudflare's Email Sending, which requires the Workers Paid plan (about $5/month), or a third-party sender such as Resend. Neither is set up.
+
+## Deploying
+
+The site is live at <https://obuyisibwomuinitiative.org>. Run `npx wrangler login` once on a new computer, then `npm run deploy` whenever you want your changes to go live.
+
+### How the domain is wired up
+
+You shouldn't need to touch any of this, but it helps to know how it fits together.
+
+- The domain's DNS is managed by Cloudflare. The nameservers were switched over from Bluehost, where the domain is registered.
+- `obuyisibwomuinitiative.org` is attached to the Worker under **Settings → Domains & Routes** as a custom domain.
+- `www.obuyisibwomuinitiative.org` is **not** served by the Worker. It has a placeholder `A` record pointing at `192.0.2.1` (a reserved address that goes nowhere), proxied through Cloudflare, plus a Redirect Rule that sends it to the address without `www` as a 301, keeping the path and query string. So `www` links redirect instead of serving a second copy of the site.
+- **Always Use HTTPS** is on, so `http://` addresses redirect to `https://`.
+- Email is unaffected by all of this. It runs on Titan via the `MX` records, which are separate from the website: changing where the site is hosted doesn't touch email.
+
+Once you're confident the new site is doing everything the old one did, the WordPress hosting at Bluehost can be retired. Keep the domain registration and the Titan email subscription.
 
 ### URLs kept from WordPress
 

@@ -14,7 +14,7 @@ npm run build     # static output to dist/
 npm run deploy    # build + wrangler deploy
 ```
 
-To test forms locally, `wrangler.jsonc` needs a `SUBMISSIONS` KV binding. It's commented out until the real namespace exists. Without it, `/api/submit/` returns 503 by design. For a local test, copy the config with the binding uncommented (any id works locally) and run `npx wrangler dev -c <copy>`. Delete the copy afterwards.
+`wrangler.jsonc` binds the real `SUBMISSIONS` KV namespace, so `npm run preview` exercises the forms end to end against wrangler's local KV simulation; nothing written there reaches production. If the binding is ever missing, `/api/submit/` returns 503 by design.
 
 ## Architecture
 

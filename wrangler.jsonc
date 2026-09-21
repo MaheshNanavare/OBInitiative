@@ -13,10 +13,8 @@
     // Only form submissions hit the Worker; every other request is served straight from static assets.
     "run_worker_first": ["/api/*"]
   },
-  // Form submissions are stored here. Create it with:
-  //   npx wrangler kv namespace create SUBMISSIONS
-  // then paste the returned id below and uncomment.
-  // "kv_namespaces": [
-  //   { "binding": "SUBMISSIONS", "id": "<paste-id-here>" }
-  // ]
+  // Form submissions are stored here, keyed by <form>:<ISO date>:<id>.
+  "kv_namespaces": [
+    { "binding": "SUBMISSIONS", "id": "3240c80e3245451db0e6aa27c2eac303" }
+  ]
 }
